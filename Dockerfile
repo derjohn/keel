@@ -13,6 +13,7 @@ RUN yarn run build
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 
+RUN mkdir -p /data; chown 1000 /data
 VOLUME /data
 ENV XDG_DATA_HOME /data
 

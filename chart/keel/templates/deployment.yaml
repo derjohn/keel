@@ -25,6 +25,9 @@ spec:
 {{- end }}
     spec:
       serviceAccountName: {{ template "serviceAccount.name" . }}
+{{- if .Values.securityContext }}
+{{ toYaml .Values.securityContext | indent 6 }}
+{{- end }}
       containers:
 {{- if .Values.extraContainers }}
 {{ toYaml .Values.extraContainers | indent 8 }}

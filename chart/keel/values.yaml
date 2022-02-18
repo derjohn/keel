@@ -22,6 +22,12 @@ polling:
 #     imagePullPolicy: IfNotPresent
 #     command: ['sh', '-c', 'echo Container 1 is Running ; sleep 3600']
 
+# Optionally enable Security Context for the Pod. Unnecessary lines can be left out.
+# securityContext:
+#   runAsUser: 1000
+#   runAsGroup: 3000
+#   fsGroup: 2000
+
 # Helm provider support
 helmProvider:
   enabled: true
