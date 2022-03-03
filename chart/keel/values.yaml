@@ -247,5 +247,5 @@ persistence:
   storageClass: "-"
   size: 1Gi
 
-storage-logs:
+storage:
   path: /data

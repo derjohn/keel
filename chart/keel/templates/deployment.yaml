@@ -25,14 +25,14 @@ spec:
 {{- end }}
     spec:
       serviceAccountName: {{ template "serviceAccount.name" . }}
-{{- if .Values.securityContext }}
-{{ toYaml .Values.securityContext | indent 6 }}
-{{- end }}
       containers:
 {{- if .Values.extraContainers }}
 {{ toYaml .Values.extraContainers | indent 8 }}
 {{- end }}
         - name: keel
+{{- if .Values.securityContext }}
+{{ toYaml .Values.securityContext | indent 10 }}
+{{- end }}
           # Note that we use appVersion to get images tag.
           image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -40,7 +40,7 @@ spec:
           volumeMounts:
 {{- if .Values.persistence.enabled }}
             - name: storage-logs
-              mountPath: {{ default "/data" .Values.storage-logs.path }}
+              mountPath: "{{ default "/data" .Values.storage.path }}"
 {{- end }}
 {{- if .Values.googleApplicationCredentials }}
             - name: secret
@@ -179,14 +179,14 @@ spec:
             - name: AWS_REGION
               value: "{{ .Values.aws.region }}"
 {{- end }}
+{{- if .Values.storage.path }}
+            - name: XDG_DATA_HOME
+              value: "{{ .Values.storage.path }}"
+{{- end }}
 {{- if or .Values.secret.create .Values.secret.name }}
           envFrom:
             - secretRef:
                 name: {{ .Values.secret.name | default (include "keel.fullname" .) }}
-{{- end }}
-{{- if .Values.storage-logs.path }}
-            - name: XDG_DATA_HOME
-              value: "{{ .Values.storage-logs.path }}"
 {{- end }}
           ports:
             - containerPort: 9300
