@@ -40,7 +40,7 @@ spec:
           volumeMounts:
 {{- if .Values.persistence.enabled }}
             - name: storage-logs
-              mountPath: /data
+              mountPath: {{ default "/data" .Values.storage-logs.path }}
 {{- end }}
 {{- if .Values.googleApplicationCredentials }}
             - name: secret
@@ -183,6 +183,10 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.secret.name | default (include "keel.fullname" .) }}
+{{- end }}
+{{- if .Values.storage-logs.path }}
+            - name: XDG_DATA_HOME
+              value: "{{ .Values.storage-logs.path }}"
 {{- end }}
           ports:
             - containerPort: 9300
