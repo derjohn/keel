@@ -249,3 +249,7 @@ persistence:
 
 storage:
   path: /data
+
+# Setting this to a different value then empty or keel, it will make keel look only into that namespace only
+# restrictednamespace: keel
+

@@ -184,6 +184,10 @@ spec:
             - name: XDG_DATA_HOME
               value: "{{ .Values.storage.path }}"
 {{- end }}
+{{- if .Values.restrictednamespace }}
+            - name: RESTRICTED_NAMESPACE
+              value: "{{ .Values.restrictednamespace }}"
+{{- end }}
 {{- if or .Values.secret.create .Values.secret.name }}
           envFrom:
             - secretRef:
